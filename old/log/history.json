@@ -1,0 +1,144 @@
+{
+    "documentation": [
+      {
+        "module": "Una",
+        "files": [
+          {
+            "file": "/app/Console/Kernel.php",
+            "description": "Arquivo que define os comandos do Artisan e agendamentos.",
+            "classes": [
+              {
+                "name": "Kernel",
+                "extends": "ConsoleKernel",
+                "type": "public",
+                "description": "Classe que estende a classe base 'ConsoleKernel' do Laravel para gerenciar comandos e agendamentos.",
+                "properties": [],
+                "methods": [
+                  {
+                    "name": "schedule",
+                    "access": "protected",
+                    "description": "Define o agendamento de tarefas.",
+                    "return": "void",
+                    "params": [
+                      {
+                        "name": "schedule",
+                        "type": "Schedule",
+                        "description": "Instância do agendador de tarefas.",
+                        "default_value": "null"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "commands",
+                    "access": "protected",
+                    "description": "Registra os comandos do Artisan para a aplicação.",
+                    "return": "void",
+                    "params": [
+                      {
+                        "name": "application",
+                        "type": "Application",
+                        "description": "Instância da aplicação.",
+                        "default_value": "null"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "file": "/app/Exceptions/Handler.php",
+            "description": "Arquivo que manipula as exceções da aplicação.",
+            "classes": [
+              {
+                "name": "Handler",
+                "extends": "ExceptionHandler",
+                "type": "public",
+                "description": "Classe que estende a classe base 'ExceptionHandler' do Laravel para lidar com exceções.",
+                "properties": [
+                  {
+                    "name": "dontReport",
+                    "type": "array",
+                    "description": "Lista de tipos de exceção que não devem ser reportadas.",
+                    "value": []
+                  },
+                  {
+                    "name": "dontFlash",
+                    "type": "array",
+                    "description": "Lista de tipos de exceção que não devem ser exibidas em mensagens flash.",
+                    "value": [
+                      "AuthenticationException",
+                      "AuthorizationException",
+                      "HttpException",
+                      "HttpResponseException",
+                      "ModelNotFoundException",
+                      "SuspiciousOperationException",
+                      "TokenMismatchException",
+                      "ValidationException"
+                    ]
+                  }
+                ],
+                "methods": [
+                  {
+                    "name": "report",
+                    "access": "public",
+                    "description": "Reporta ou registra uma exceção.",
+                    "return": "void",
+                    "params": [
+                      {
+                        "name": "e",
+                        "type": "Throwable",
+                        "description": "A exceção a ser reportada.",
+                        "default_value": "null"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "render",
+                    "access": "public",
+                    "description": "Renderiza uma exceção em uma resposta HTTP.",
+                    "return": "Response",
+                    "params": [
+                      {
+                        "name": "request",
+                        "type": "Request",
+                        "description": "A requisição HTTP.",
+                        "default_value": "null"
+                      },
+                      {
+                        "name": "e",
+                        "type": "Throwable",
+                        "description": "A exceção a ser renderizada.",
+                        "default_value": "null"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "unauthenticated",
+                    "access": "protected",
+                    "description": "Converte uma exceção de autenticação em uma resposta HTTP.",
+                    "return": "JsonResponse|RedirectResponse|Response",
+                    "params": [
+                      {
+                        "name": "request",
+                        "type": "Request",
+                        "description": "A requisição HTTP.",
+                        "default_value": "null"
+                      },
+                      {
+                        "name": "exception",
+                        "type": "AuthenticationException",
+                        "description": "A exceção de autenticação.",
+                        "default_value": "null"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "next": "app/Http/Controllers/Auth/ForgotPasswordController.php"
+  }

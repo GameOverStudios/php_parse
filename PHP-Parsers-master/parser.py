@@ -6,7 +6,8 @@ from src.modules.php.base import Visitor
 from src.modules.php.syntax_tree import build_syntax_tree
 
 output_dir = "output"
-php_dir = r"C:\Users\nepom\Downloads\una-master\inc\classes"
+php_dir = r"C:\Users\nepom\Downloads\una-master"
+end_directory_path_split = 'master_'
 
 class EstruturaEncontrada:
     def __init__(self, tipo, atributos):
@@ -54,7 +55,6 @@ class CustomVisitor(Visitor):
                     if hasattr(node, attr_name):  # Verifica se o nó possui o atributo
                         attr_value = getattr(node, attr_name)
                         node_info["attributes"][attr_name] = self.format_complex_attribute(attr_value)
-
             self.results.append(node_info)
         except Exception as e:
             print(f">>>>>>>>>>>>>>>>>>>> [ Erro ] <<<<<<<<<<<<<<<<<<<<<<<< {node}: {e}")
@@ -102,8 +102,8 @@ class CustomVisitor(Visitor):
                         key = 'end_value'  # Renomeia para 'end_value'
                     formatted_dict[key] = self.format_complex_attribute(value, visited.copy())
             self.coletor_estruturas.adicionar_estrutura(type(attr_value).__name__, formatted_dict)
-            criar_tabelas_sqlite(self.coletor_estruturas, "ast_database.db")  # Chama a função para criar a tabela aqui
-            self.inserir_dados_sqlite(type(attr_value).__name__, formatted_dict)  # Chama a função para inserir dados no SQLite
+            #criar_tabelas_sqlite(self.coletor_estruturas, "ast_database.db")  # Chama a função para criar a tabela aqui
+            #self.inserir_dados_sqlite(type(attr_value).__name__, formatted_dict)  # Chama a função para inserir dados no SQLite
             return formatted_dict
         elif hasattr(attr_value, 'accept'):
             attr_value.accept(self)
@@ -119,10 +119,8 @@ def analyze_file(file_path, coletor_estruturas, conn, extrair_tudo=False):
         traverser = BFTraverser(s_tree)
         traverser.register_visitor(visitor)
         traverser.traverse()
-
         results = visitor.results
         results.insert(0, {"file_path": file_path})
-
         return results
     except FileNotFoundError:
         print(f"Arquivo não encontrado: {file_path}")
@@ -131,12 +129,20 @@ def analyze_file(file_path, coletor_estruturas, conn, extrair_tudo=False):
     return None
 
 def save_ast_to_json(ast, file_path):
+    # Obtém o caminho relativo do arquivo PHP e troca a extensão para .json
     relative_path = os.path.relpath(file_path, php_dir).replace(".php", ".json")
-    file_name = relative_path.replace(os.sep, "_")
+    
+    # Substitui os separadores de diretório por '_'
+    file_name = file_path.replace('//','').replace('\\','_').replace(os.sep, "_").replace(".php", ".json").split(end_directory_path_split, 1)[-1]
+    
+    # Cria o caminho completo para o arquivo JSON
     output_file_path = os.path.join(output_dir, file_name)
 
-    with open(output_file_path, "w") as f:
-        json.dump(ast, f, indent=4)
+    # Garante que o diretório de saída exista
+    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+
+    with open(output_file_path, "w", encoding='utf-8') as f:
+        json.dump(ast, f, ensure_ascii=False, indent=4)  # Salva a AST em JSON
         print(f"AST salva em: {output_file_path}")
 
 def criar_tabelas_sqlite(coletor_estruturas, nome_banco):
@@ -177,6 +183,7 @@ def extract_from_php(extrair_tudo=False):
     for root, _, files in os.walk(php_dir):
         for file in files:
             if file.endswith(".php"):
+                print(file+'...')
                 file_path = os.path.join(root, file)
                 ast = analyze_file(file_path, coletor_estruturas, conn, extrair_tudo)  # Passa a conexão aqui
                 if ast is not None:
@@ -217,11 +224,8 @@ def analisar_ast(arquivo_json):
     except json.JSONDecodeError:
         print(f"Erro: Arquivo JSON inválido: {arquivo_json}")
 
-#extract_from_php(extrair_tudo=False)
+###--->
 
-
-
-# Função para criar tabelas no SQLite
 def create_tables(conn):
     cursor = conn.cursor()
     cursor.execute('''
@@ -250,7 +254,6 @@ def create_tables(conn):
     ''')
     conn.commit()
 
-# Função recursiva para processar atributos e inseri-los no banco
 def process_attributes(cursor, table_id, prefix, attributes):
     for key, value in attributes.items():
         if isinstance(value, (dict, list)):
@@ -268,7 +271,6 @@ def process_attributes(cursor, table_id, prefix, attributes):
             cursor.execute('INSERT INTO virtualfields (table_id, field_name, field_value) VALUES (?, ?, ?);',
                            (table_id, prefix + key, str(value)))
 
-# Função para inserir os registros do arquivo
 def insert_file_records(conn, data):
     cursor = conn.cursor()
     
@@ -303,7 +305,6 @@ def insert_file_records(conn, data):
 
     conn.commit()
 
-# Função para processar arquivos JSON em um diretório
 def process_json_files(directory):
     conn = sqlite3.connect('example.db')
     create_tables(conn)
@@ -311,6 +312,7 @@ def process_json_files(directory):
     for filename in os.listdir(directory):
         if filename.endswith('.json'):
             file_path = os.path.join(directory, filename)
+            print('SQL>> '+filename)
             with open(file_path, 'r') as json_file:
                 try:
                     data = json.load(json_file)
@@ -325,10 +327,5 @@ def process_json_files(directory):
 
     conn.close()
 
-# Função principal
-def main():
-    directory = 'output'  # Altere para o caminho correto
-    process_json_files(directory)
-
-if __name__ == "__main__":
-    main()
+extract_from_php(extrair_tudo=False)
+#process_json_files(output_dir)

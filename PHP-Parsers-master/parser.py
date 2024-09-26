@@ -8,6 +8,7 @@ from src.modules.php.syntax_tree import build_syntax_tree
 output_dir = "output"
 php_dir = r"C:\Users\nepom\Downloads\una-master"
 end_directory_path_split = 'master_'
+database = 'una.db'
 
 class EstruturaEncontrada:
     def __init__(self, tipo, atributos):
@@ -142,8 +143,7 @@ def save_ast_to_json(ast, file_path):
     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
 
     with open(output_file_path, "w", encoding='utf-8') as f:
-        json.dump(ast, f, ensure_ascii=False, indent=4)  # Salva a AST em JSON
-        print(f"AST salva em: {output_file_path}")
+        json.dump(ast, f, ensure_ascii=False, indent=4)
 
 def criar_tabelas_sqlite(coletor_estruturas, nome_banco):
     conn = sqlite3.connect(nome_banco)
@@ -228,12 +228,16 @@ def analisar_ast(arquivo_json):
 
 def create_tables(conn):
     cursor = conn.cursor()
+
+    # Criação da tabela 'files'
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS files (
             id INTEGER PRIMARY KEY,
             file_path TEXT UNIQUE
         );
     ''')
+
+    # Criação da tabela 'virtualtables'
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS virtualtables (
             id INTEGER PRIMARY KEY,
@@ -243,6 +247,8 @@ def create_tables(conn):
             FOREIGN KEY (file_id) REFERENCES files(id)
         );
     ''')
+
+    # Criação da tabela 'virtualfields'
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS virtualfields (
             id INTEGER PRIMARY KEY,
@@ -252,36 +258,49 @@ def create_tables(conn):
             FOREIGN KEY (table_id) REFERENCES virtualtables(id)
         );
     ''')
+
+    # Criando índices para melhorar a performance das consultas
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_file_path ON files (file_path);')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_virtualtables_file_id ON virtualtables (file_id);')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_virtualtables_table_type ON virtualtables (table_type);')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_virtualfields_table_id ON virtualfields (table_id);')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_virtualfields_field_name ON virtualfields (field_name);')
+
+    conn.commit()
+
     conn.commit()
 
 def process_attributes(cursor, table_id, prefix, attributes):
     for key, value in attributes.items():
         if isinstance(value, (dict, list)):
-            # Se o valor é uma lista, itere sobre os itens
             if isinstance(value, list):
                 for index, sub_item in enumerate(value):
                     if isinstance(sub_item, dict):
                         process_attributes(cursor, table_id, f"{prefix}{key}.{index}", sub_item)
                     else:
-                        cursor.execute('INSERT INTO virtualfields (table_id, field_name, field_value) VALUES (?, ?, ?);',
-                                       (table_id, f"{prefix}{key}.{index}", str(sub_item)))
-            elif isinstance(value, dict):  # Se for um dicionário, processa recursivamente
+                        # Verifica se o campo já existe antes de inserir
+                        cursor.execute('SELECT id FROM virtualfields WHERE table_id = ? AND field_name = ?;', (table_id, f"{prefix}{key}.{index}"))
+                        if not cursor.fetchone():
+                            cursor.execute('INSERT INTO virtualfields (table_id, field_name, field_value) VALUES (?, ?, ?);',
+                                           (table_id, f"{prefix}{key}.{index}", str(sub_item)))
+            elif isinstance(value, dict):
                 process_attributes(cursor, table_id, f"{prefix}{key}.", value)
         else:
-            cursor.execute('INSERT INTO virtualfields (table_id, field_name, field_value) VALUES (?, ?, ?);',
-                           (table_id, prefix + key, str(value)))
+            cursor.execute('SELECT id FROM virtualfields WHERE table_id = ? AND field_name = ?;', (table_id, prefix + key))
+            if not cursor.fetchone():
+                cursor.execute('INSERT INTO virtualfields (table_id, field_name, field_value) VALUES (?, ?, ?);',
+                               (table_id, prefix + key, str(value)))
 
 def insert_file_records(conn, data):
     cursor = conn.cursor()
     
     # Inserindo o arquivo se não existir
-    cursor.execute('SELECT id FROM files WHERE file_path = ?;', (data['file_path'],))
+    cursor.execute('SELECT id FROM files WHERE file_path = ?;', (data['file_path'].replace(output_dir+'\\',''),))
     if not cursor.fetchone():
-        cursor.execute('INSERT INTO files (file_path) VALUES (?);', (data['file_path'],))
+        cursor.execute('INSERT INTO files (file_path) VALUES (?);', (data['file_path'].replace(output_dir+'\\',''),))
         file_id = cursor.lastrowid
     else:
-        cursor.execute('SELECT id FROM files WHERE file_path = ?;', (data['file_path'],))
-        file_id = cursor.fetchone()[0]
+        file_id = cursor.execute('SELECT id FROM files WHERE file_path = ?;', (data['file_path'].replace(output_dir+'\\',''),)).fetchone()[0]
 
     for item in data['items']:
         if 'type' in item:
@@ -297,8 +316,7 @@ def insert_file_records(conn, data):
                                (file_id, table_name, attributes.get('lineno', None)))
                 table_id = cursor.lastrowid
             else:
-                cursor.execute('SELECT id FROM virtualtables WHERE file_id = ? AND table_type = ?;', (file_id, table_name))
-                table_id = cursor.fetchone()[0]
+                table_id = cursor.execute('SELECT id FROM virtualtables WHERE file_id = ? AND table_type = ?;', (file_id, table_name)).fetchone()[0]
 
             # Processa os atributos recursivamente
             process_attributes(cursor, table_id, '', attributes)
@@ -306,26 +324,41 @@ def insert_file_records(conn, data):
     conn.commit()
 
 def process_json_files(directory):
-    conn = sqlite3.connect('example.db')
+    conn = sqlite3.connect(database)
     create_tables(conn)
+    
+    # *** when break loop ***
+    flag = True # to continue from loop
 
     for filename in os.listdir(directory):
         if filename.endswith('.json'):
-            file_path = os.path.join(directory, filename)
-            print('SQL>> '+filename)
-            with open(file_path, 'r') as json_file:
-                try:
-                    data = json.load(json_file)
-                    # Adicionando o caminho do arquivo
-                    structured_data = {
-                        'file_path': file_path,
-                        'items': data
-                    }
-                    insert_file_records(conn, structured_data)
-                except json.JSONDecodeError as e:
-                    print(f"Erro ao processar {file_path}: {e}")
+            try:
+                file_path = os.path.join(directory, filename)
+
+                # ******* ERROR FILE *******
+                if filename.__contains__('samples_forms.json') or flag == True:
+
+                    print('SQL>> '+filename)
+                    flag = True
+
+                    # ******* ERROR FILE *******
+                    if not filename.__contains__('samples_forms.json'):
+                        
+                        with open(file_path, 'r') as json_file:
+                            try:
+                                data = json.load(json_file)
+                                # Adicionando o caminho do arquivo
+                                structured_data = {
+                                    'file_path': file_path,
+                                    'items': data
+                                }
+                                insert_file_records(conn, structured_data)
+                            except json.JSONDecodeError as e:
+                                print(f"Erro ao processar {file_path}: {e}")
+            except:
+                print('**** ERROR :::> ' + filename)
 
     conn.close()
 
-extract_from_php(extrair_tudo=False)
-#process_json_files(output_dir)
+#extract_from_php(extrair_tudo=False)
+process_json_files(output_dir)

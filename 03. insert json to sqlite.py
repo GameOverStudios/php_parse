@@ -34,12 +34,20 @@ CREATE TABLE IF NOT EXISTS JsonValues (
 )
 ''')
 
+# Criação de índices
+cursor.execute('CREATE INDEX IF NOT EXISTS idx_files_path ON Files(path)')
+cursor.execute('CREATE INDEX IF NOT EXISTS idx_keys_key ON Keys(key)')
+cursor.execute('CREATE INDEX IF NOT EXISTS idx_jsonvalues_file_id ON JsonValues(file_id)')
+cursor.execute('CREATE INDEX IF NOT EXISTS idx_jsonvalues_key_id ON JsonValues(key_id)')
+cursor.execute('CREATE INDEX IF NOT EXISTS idx_jsonvalues_parent_id ON JsonValues(parent_id)')
+
+
 def insert_key(key):
     cursor.execute('INSERT OR IGNORE INTO Keys (key) VALUES (?)', (key,))
     return cursor.execute('SELECT id FROM Keys WHERE key = ?', (key,)).fetchone()[0]
 
 def insert_json_value(value, key_id, file_id, parent_id):
-    cursor.execute('INSERT INTO JsonValues (value, key_id, file_id, parent_id) VALUES (?, ?, ?, ?)', (value, key_id, file_id, parent_id))
+    cursor.execute('INSERT OR IGNORE INTO JsonValues (value, key_id, file_id, parent_id) VALUES (?, ?, ?, ?)', (value, key_id, file_id, parent_id))
     return cursor.lastrowid
 
 def process_json(json_data, file_id, parent_id=None):
@@ -61,14 +69,17 @@ def main(directory):
     for root, _, files in os.walk(directory):
         for file in files:
             if file.endswith('.json'):
-                file_path = os.path.join(root, file)
-                cursor.execute('INSERT OR IGNORE INTO Files (path) VALUES (?)', (file_path,))
-                file_id = cursor.execute('SELECT id FROM Files WHERE path = ?', (file_path,)).fetchone()[0]
+                print(file)
+                try:
+                    file_path = os.path.join(root, file)
+                    cursor.execute('INSERT OR IGNORE INTO Files (path) VALUES (?)', (file_path,))
+                    file_id = cursor.execute('SELECT id FROM Files WHERE path = ?', (file_path,)).fetchone()[0]
 
-                with open(file_path, 'r') as json_file:
-                    json_data = json.load(json_file)
-                    process_json(json_data, file_id)
-                    break
+                    with open(file_path, 'r') as json_file:
+                        json_data = json.load(json_file)
+                        process_json(json_data, file_id)
+                except:
+                    print('****ERROR**** ' + file)
 
     conn.commit()
 
@@ -84,7 +95,8 @@ def print_tree(parent_id=None, indent=""):
         if key:
             print(f"{indent}[+]: {key[0]}")
             if value[1] is not None:
-                print(f"{indent}\tValue: {value[1]}")
+                print(f"{indent}\t: {value[1]}")
+                
             print_tree(value[0], indent + "\t")
 
 def print_all_trees():

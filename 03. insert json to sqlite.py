@@ -34,20 +34,24 @@ CREATE TABLE IF NOT EXISTS JsonValues (
 )
 ''')
 
+def insert_key(key):
+    cursor.execute('INSERT OR IGNORE INTO Keys (key) VALUES (?)', (key,))
+    return cursor.execute('SELECT id FROM Keys WHERE key = ?', (key,)).fetchone()[0]
+
+def insert_json_value(value, key_id, file_id, parent_id):
+    cursor.execute('INSERT INTO JsonValues (value, key_id, file_id, parent_id) VALUES (?, ?, ?, ?)', (value, key_id, file_id, parent_id))
+    return cursor.lastrowid
+
 def process_json(json_data, file_id, parent_id=None):
     if isinstance(json_data, dict):
         for key, value in json_data.items():
-            cursor.execute('INSERT OR IGNORE INTO Keys (key) VALUES (?)', (key,))
-            key_id = cursor.lastrowid if cursor.lastrowid else cursor.execute('SELECT id FROM Keys WHERE key = ?', (key,)).fetchone()[0]
-
-            # Insere o valor no banco, vinculando-o ao seu pai
-            cursor.execute('INSERT INTO JsonValues (key_id, file_id, parent_id) VALUES (?, ?, ?)', (key_id, file_id, parent_id))
-            new_id = cursor.lastrowid
+            key_id = insert_key(key)
+            new_id = insert_json_value(None, key_id, file_id, parent_id)
             
             if isinstance(value, (dict, list)):
-                process_json(value, file_id, new_id)  # Passa o novo ID como parent_id
+                process_json(value, file_id, new_id)
             else:
-                cursor.execute('UPDATE JsonValues SET value = ? WHERE id = ?', (value, new_id))  # Atualiza o valor
+                cursor.execute('UPDATE JsonValues SET value = ? WHERE id = ?', (value, new_id))
 
     elif isinstance(json_data, list):
         for item in json_data:
@@ -59,7 +63,7 @@ def main(directory):
             if file.endswith('.json'):
                 file_path = os.path.join(root, file)
                 cursor.execute('INSERT OR IGNORE INTO Files (path) VALUES (?)', (file_path,))
-                file_id = cursor.lastrowid if cursor.lastrowid else cursor.execute('SELECT id FROM Files WHERE path = ?', (file_path,)).fetchone()[0]
+                file_id = cursor.execute('SELECT id FROM Files WHERE path = ?', (file_path,)).fetchone()[0]
 
                 with open(file_path, 'r') as json_file:
                     json_data = json.load(json_file)
@@ -78,10 +82,10 @@ def print_tree(parent_id=None, indent=""):
         key = cursor.fetchone()
 
         if key:
-            print(f"{indent}[+]: Key: {key[0]}")
+            print(f"{indent}[+]: {key[0]}")
             if value[1] is not None:
                 print(f"{indent}\tValue: {value[1]}")
-            print_tree(value[0], indent + "\t")  # Passa o ID do filho para buscar subníveis
+            print_tree(value[0], indent + "\t")
 
 def print_all_trees():
     cursor.execute('SELECT * FROM Files')
@@ -90,14 +94,14 @@ def print_all_trees():
     for file in files:
         file_id = file[0]
         print(f"File: {file[1]}")
-        print_tree()  # Inicia a impressão da árvore com parent_id = None
+        print_tree(None)  # Inicia a impressão da árvore com parent_id = None
         print("\n" + "-"*40 + "\n")
 
-# Descomente para processar arquivos
+# Executa o processamento de arquivos
 main('output')
 
-# Chame a função após conectar ao banco de dados
+# Chame a função para imprimir a árvore
 print_all_trees()
 
-# Não esqueça de fechar a conexão ao final
+# Fecha a conexão ao final
 conn.close()

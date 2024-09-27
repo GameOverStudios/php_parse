@@ -25,7 +25,7 @@ function garantirDiretorioSaida() {
 
 // Função para verificar se o diretório deve ser ignorado
 function deveIgnorarDiretorio(diretorio) {
-    return /upgrade|update/i.test(diretorio);
+    return /upgrade|xero|api|artificer|azure|cas_|charts|chat|datafox|decorous|dolphin|drupal|editor|elasticsearch|facebook|fontawesome|froala|google|intercom|linkedin|lucid|mailchip|nexus|oauth2|ocean|okta|opencv|plyr|profiler|protean|se_migration|shopify|smtpmailer|snipcart|stripe_connect|twitter|una_connect|xero|update/i.test(diretorio);
 }
 
 // Função para ler arquivos PHP e salvar a análise
@@ -58,6 +58,10 @@ function lerArquivosPhp(diretorio, outputDir) {
 }
 
 // Altere o caminho do diretório conforme necessário
-const diretorio = 'c:/xampp/htdocs/una';
-const outputDir = garantirDiretorioSaida();
+diretorio = 'c:/xampp/htdocs/una/modules';
+outputDir = garantirDiretorioSaida();
+lerArquivosPhp(diretorio, outputDir);
+
+diretorio = 'c:/xampp/htdocs/una/inc';
+outputDir = garantirDiretorioSaida();
 lerArquivosPhp(diretorio, outputDir);

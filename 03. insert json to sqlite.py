@@ -3,7 +3,7 @@ import os
 import sqlite3
 
 # Criação ou conexão ao banco de dados SQLite
-conn = sqlite3.connect('files.db')
+conn = sqlite3.connect('una_cms.db')
 cursor = conn.cursor()
 
 # Criação das tabelas

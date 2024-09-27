@@ -2,11 +2,11 @@ import os
 import json
 import sqlite3
 import shutil
-from src.modules.php.traversers.bf import BFTraverser
-from src.modules.php.base import Visitor
-from src.modules.php.syntax_tree import build_syntax_tree
+from modules.php.traversers.bf import BFTraverser
+from modules.php.base import Visitor
+from modules.php.syntax_tree import build_syntax_tree
 
-output_dir = r"PHP-Parsers-master\output"
+output_dir = r"output"
 php_dir = r"C:\Users\nepom\Downloads\una-master"
 end_directory_path_split = 'master_'
 database = 'una_cms.db'

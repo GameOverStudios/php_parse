@@ -2,3 +2,4 @@ chroma/chroma.sqlite3
 chroma/chroma.7z
 output
 output_database
+node_modules

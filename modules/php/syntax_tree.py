@@ -1,9 +1,9 @@
 import sys
 import os
 
-from src.compiler.php import phpparse
-from src.compiler.php import phplex
-from src.compiler.php import phpast
+from compiler.php import phpparse
+from compiler.php import phplex
+from compiler.php import phpast
 
 lexer = phplex.lexer
 lexer.lineno = 1

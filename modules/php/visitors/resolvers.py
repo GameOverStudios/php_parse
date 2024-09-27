@@ -3,9 +3,9 @@
 import sys
 import os
 
-from src.modules.php import syntax_tree
-from src.modules.php.base import Visitor
-from src.compiler.php import phpast
+from modules.php import syntax_tree
+from modules.php.base import Visitor
+from compiler.php import phpast
 
 class CircularImport(phpast.Node):
     fields = ["file_name"]

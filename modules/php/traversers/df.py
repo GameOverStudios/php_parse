@@ -1,9 +1,9 @@
 import sys
 import os
 
-from src.compiler.php import phpast
-from src.modules.php import syntax_tree
-from src.modules.php.base import Traverser
+from compiler.php import phpast
+from modules.php import syntax_tree
+from modules.php.base import Traverser
 
 class DFTraverser(Traverser):
     """ Recursive Depth First Traverser"""

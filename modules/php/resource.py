@@ -8,9 +8,9 @@ import sys
 
 from collections import defaultdict
 
-from src.modules.php import syntax_tree
-from src.modules.php.visitors.resolvers import ResourceDependencyResolver, TablesBuilder
-from src.modules.php.traversers.bf import BFTraverser
+from modules.php import syntax_tree
+from modules.php.visitors.resolvers import ResourceDependencyResolver, TablesBuilder
+from modules.php.traversers.bf import BFTraverser
 
 
 class InvalidPathException(Exception):

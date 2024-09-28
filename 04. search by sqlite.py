@@ -1,7 +1,7 @@
 import sqlite3
 
 # Conectar ao banco de dados
-conn = sqlite3.connect('files.db')
+conn = sqlite3.connect('una_cms.db')
 cursor = conn.cursor()
 
 # Função para pesquisar por chave específica e retornar o arquivo relacionado
@@ -47,14 +47,14 @@ def search_by_parent(parent_id):
         print(f"ID: {row[0]}, File: {row[1]}, Key: {row[2]}, Value: {row[3]}, Parent ID: {row[4]}")
 
 # Exemplo de uso das funções
-print("Pesquisando pela chave 'end':")
-search_by_key('end')
+key = input("Key:")
+search_by_key(key)
 
-print("\nPesquisando por valor 'program':")
-search_by_value('program')
+#print("\nPesquisando por valor 'program':")
+#search_by_value('program')
 
-print("\nPesquisando por ID de pai 1:")
-search_by_parent(1)
+#print("\nPesquisando por ID de pai 1:")
+#search_by_parent(1)
 
 # Fechar conexão ao banco de dados
 conn.close()

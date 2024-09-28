@@ -124,12 +124,13 @@ def create_database(db_file, directory, filter_fields):
         """
         create_table(conn, create_table_sql)
 
-        # Insere os dados JSON
-        process_json_files_in_directory(conn, directory, filter_fields)
-
         # Cria os índices
         conn.execute("CREATE INDEX idx_file_id ON json_data (file_id)")
         conn.execute("CREATE INDEX idx_key ON json_data (key)")
+        conn.commit()
+
+        # Insere os dados JSON
+        process_json_files_in_directory(conn, directory, filter_fields)
 
         conn.commit()  # Commit changes after inserting data
         conn.close()
@@ -214,7 +215,7 @@ directory = 'output'
 filter_fields = ['kind', 'children', 'class', 'value', 'name', 'isAnonymous', 'extends', 'resolution', 'implements', 'body', 'properties', 'value', 'readonly', 'nullable', 'type', 'visibility', 'isStatic', 'arguments', 'byref', 'variadic', 'expr', 'what', 'offset', 'raw', 'unicode', 'isDoubleQuote', 'items', 'key', 'curly', 'unpack', 'shortForm', 'isAbstract', 'isFinal', 'isReadonly', 'isStatic', 'left', 'right', 'operator', 'byRef', 'leadingComments', 'comments']
 
 # Cria o banco de dados e insere os dados
-create_database(db_file, directory, filter_fields)
+#create_database(db_file, directory, filter_fields)
 
 # Exemplos de consultas
 conn = create_connection(db_file)

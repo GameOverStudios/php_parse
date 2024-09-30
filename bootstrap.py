@@ -169,6 +169,18 @@ def criar_tabelas(db):
     )
     ''')
 
+
+     #Criar tabela styles_classes_componentes
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS styles_classes_componentes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            class_id INTEGER,
+            component_id INTEGER,
+            FOREIGN KEY (class_id) REFERENCES styles_classes(id),
+            FOREIGN KEY (component_id) REFERENCES BootstrapComponents(id)
+        )
+    ''')
+
      
 
      # Cria índice na tabela styles_classes pelo nome da classe
@@ -190,12 +202,12 @@ def criar_temas(db):
     conn = sqlite3.connect(db)
     cursor = conn.cursor()
 
-    cursor.execute ('INSERT INTO styles_themes (theme) VALUES("light")')
-    cursor.execute ('INSERT INTO styles_themes (theme) VALUES("dark")')
+    cursor.execute ('INSERT OR IGNORE INTO styles_themes (theme) VALUES("light")')
+    cursor.execute ('INSERT OR IGNORE INTO styles_themes (theme) VALUES("dark")')
 
     cursor.execute (
     '''
-    INSERT INTO styles_themes_parameters (theme_id, parameter, value) VALUES
+    INSERT OR IGNORE INTO styles_themes_parameters (theme_id, parameter, value) VALUES
         (1,'bs-blue', '#0d6efd'),
         (1,'bs-indigo', '#6610f2'),
         (1,'bs-purple', '#6f42c1'),
@@ -317,7 +329,7 @@ def criar_temas(db):
 
     cursor.execute (
     '''    
-    INSERT INTO styles_themes_parameters (theme_id, parameter, value) VALUES
+    INSERT OR IGNORE INTO styles_themes_parameters (theme_id, parameter, value) VALUES
         (2, '--bs-body-color', '#dee2e6'),
         (2, '--bs-body-color-rgb', '222, 226, 230'),
         (2, '--bs-body-bg', '#212529'),
@@ -390,14 +402,159 @@ def cadastra_propriedades(conn, cursor, propriedades):
         valor = valor.strip()
 
         if not existe_propriedade(class_id, propriedade):
-            cursor.execute("INSERT INTO styles_classes_properties (class_id, property_name) VALUES (?, ?)", (class_id, prop_name))
+            cursor.execute("INSERT OR IGNORE INTO styles_classes_properties (class_id, property_name) VALUES (?, ?)", (class_id, prop_name))
             conn.commit()
             property_id = cursor.lastrowid
         else:
             property_id = existe_propriedade(class_id, propriedade)[0]
 
-        cursor.execute("INSERT INTO styles_classes_properties_values (property_id, value) VALUES (?, ?)", (property_id, valor))
+        cursor.execute("INSERT OR IGNORE INTO styles_classes_properties_values (property_id, value) VALUES (?, ?)", (property_id, valor))
         conn.commit()
+
+def cadastra_componentes(conn, cursor, componentes_extraidos):
+    for nome_componente, html_estruturas in componentes_extraidos.items():
+        for html_estrutura in html_estruturas:
+            # **Regex mais robusta para extrair classes (uso de re.findall):**
+            classes_css = re.findall(r'class="([^"]+)"', html_estrutura)
+            if classes_css:
+                classes_css_string = ','.join(classes_css)
+            else:
+                classes_css_string = ""
+
+            # Inserir o componente no banco de dados
+            cursor.execute("INSERT OR IGNORE INTO BootstrapComponents (componentName, htmlStructure, cssClasses) VALUES (?, ?, ?)",
+                           (nome_componente, html_estrutura, classes_css_string))
+            conn.commit()
+            component_id = cursor.lastrowid
+
+            # **Registrando as classes CSS do componente na tabela styles_classes:**
+            for css_class in classes_css:
+                cursor.execute("SELECT id FROM styles_classes WHERE class_name = ? AND media_type = ?", (css_class, None))
+                class_id_result = cursor.fetchone()
+
+                if class_id_result:
+                    class_id = class_id_result[0]  # Obter o ID da classe
+                    cursor.execute("INSERT OR IGNORE INTO styles_classes_componentes (class_id, component_id) VALUES (?, ?)", (class_id, component_id))
+                    conn.commit()
+
+def gerar_exemplo_html(classe):
+    """Gera um exemplo de HTML a partir da classe."""
+    if classe.startswith("btn"):
+        return f'<button class="{classe}">Button example</button>'
+    elif classe.startswith("card"):
+        return f'<div class="{classe}"><div class="card-body">Card example content</div></div>'
+    elif classe.startswith("table"):
+        return f'<table class="{classe}"></table>'
+    elif classe.startswith("img"):
+        return f'<img src="placeholder.jpg" alt="Imagem" class="{classe}">'
+    elif classe.startswith("list-group"):
+        return f'<ul class="{classe}"><li class="list-group-item">Item da lista</li></ul>'
+    elif classe.startswith("form-control"):
+        return f'<input type="text" class="{classe}" placeholder="Exemplo de input">'
+    elif classe.startswith("navbar"):
+        return f'<nav class="{classe}"></nav>'
+    elif classe.startswith("row") or classe.startswith("col"):
+        return f'<div class="{classe}"></div>'
+    elif classe.startswith("alert"):
+        return f'<div class="{classe}">Exemplo de alerta</div>'
+    elif classe.startswith("progress"):
+        return f'<div class="{classe}"><div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div></div>'
+    elif classe.startswith("pagination"):
+        return f'<nav><ul class="{classe}"><li class="page-item"><a class="page-link" href="#">1</a></li></ul></nav>'
+    elif classe.startswith("badge"):
+        return f'<span class="{classe}">Exemplo de badge</span>'
+    elif classe.startswith("breadcrumb"):
+        return f'<nav aria-label="breadcrumb"><ol class="{classe}"><li class="breadcrumb-item active" aria-current="page">Home</li></ol></nav>'
+    elif classe.startswith("accordion"):
+        return f'<div class="{classe}"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button">Cabeçalho do Acordèo</button></h2><div class="accordion-collapse"><div class="accordion-body">Corpo do Acordèo</div></div></div></div>'
+    elif classe.startswith("list-group-item"):
+        return f'<li class="{classe}">Exemplo de item de lista</li>'
+    elif classe.startswith("modal"):
+      return f'<div class="{classe}"><div class="modal-dialog"><div class="modal-content">Modal example content</div></div></div>'
+    elif classe.startswith("dropdown"):
+      return f'<div class="{classe}"><a href="#" class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"><li><a class="dropdown-item" href="#">Action</a></li></ul></div>'	
+    elif classe.startswith("dropdown-item"):
+      return f'<a class="{classe}" href="#">Dropdown item example</a>'
+    elif classe.startswith("modal-dialog"):
+        return f'<div class="{classe}"></div>'  
+    elif classe.startswith("modal-content"):
+        return f'<div class="{classe}"></div>'  
+    elif classe.startswith("modal-header"):
+        return f'<div class="{classe}"></div>'  
+    elif classe.startswith("modal-body"):
+        return f'<div class="{classe}">Modal body example</div>'  
+    elif classe.startswith("modal-footer"):
+        return f'<div class="{classe}"></div>'
+    elif classe.startswith("input-group"):
+        return f'<div class="{classe}"><span class="input-group-text">Exemplo</span><input type="text" class="form-control"></div>'
+    elif classe.startswith("figure"):
+        return f'<figure class="{classe}"><img src="placeholder.jpg" alt="Imagem" class="figure-img img-fluid"></figure>'
+    elif classe.startswith("blockquote"):
+        return f'<blockquote class="{classe}"><p>Exemplo de citação</p></blockquote>'
+    elif classe.startswith("form-check"):
+        return f'<div class="{classe}"><input type="checkbox" class="form-check-input"> <label class="form-check-label">Check example</label></div>'
+    elif classe.startswith("form-select"):
+        return f'<select class="{classe}"> <option>Option 1</option> </select>'
+    elif classe.startswith("progress-bar"):
+        return f'<div class="progress"><div class="progress-bar {classe}" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div></div>'
+    elif classe.startswith("progress"):
+        return f'<div class="{classe}"><div class="progress-bar" style="width: 25%;"></div></div>'
+    elif classe.startswith("modal-dialog-scrollable"):
+        return f'<div class="{classe}"><div class="modal-content"><div class="modal-body"><p>Exemplo de conteúdo modal</p></div></div></div>'
+    elif classe.startswith("dropdown-menu"):
+        return f'<ul class="{classe}"><li><a class="dropdown-item" href="#">Action</a></li></ul>'
+    elif classe.startswith("nav-link"):
+        return f'<a class="{classe}" href="#">Link example</a>'
+    elif classe.startswith("nav-tabs"):
+        return f'<ul class="{classe}"><li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li></ul>'
+    elif classe.startswith("nav-pills"):
+        return f'<ul class="{classe}"><li class="nav-item"><a class="nav-link active" href="#">Link</a></li></ul>'
+    elif classe.startswith("figure-img"):
+        return f'<img src="placeholder.jpg" alt="Imagem" class="{classe} img-fluid">'
+    elif classe.startswith("form-check-input"):
+        return f'<input class="{classe}" type="checkbox">'
+    elif classe.startswith("form-check-label"):
+        return f'<label class="{classe}">Check example</label>'
+    elif classe.startswith("form-range"):
+        return f'<input type="range" class="{classe}">'
+    elif classe.startswith("pagination-lg") or classe.startswith("pagination-sm"):
+        return f'<nav><ul class="{classe}"><li class="page-item"><a class="page-link" href="#">1</a></li></ul></nav>'
+    elif classe.startswith("list-group-item-action"):
+        return f'<a class="{classe}" href="#">Link de item de lista</a>'
+    elif classe.startswith("navbar-brand"):
+        return f'<a href="#" class="{classe}">Brand example</a>'
+    elif classe.startswith("navbar-nav") or classe.startswith("navbar-toggler"):
+        return f'<div class="{classe}"></div>'
+    elif classe.startswith("navbar-nav-link"):
+        return f'<a class="{classe}" href="#">Link da navbar</a>'
+    elif classe.startswith("carousel-item"):
+        return f'<div class="{classe}"><img src="placeholder.jpg" alt="Imagem de carrossel" class="d-block w-100"></div>'
+    elif classe.startswith("carousel-control-prev") or classe.startswith("carousel-control-next"):
+        return f'<button class="{classe}" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>'
+    elif classe.startswith("carousel-indicators"):
+        return f'<div class="{classe}"><button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1"></button></div>'
+    elif classe.startswith("offcanvas"):
+        return f'<div class="{classe}"><div class="offcanvas-body">Offcanvas example</div></div>'
+    elif classe.startswith("toast"):
+        return f'<div class="{classe}"><div class="toast-body">Toast example</div></div>'
+    elif classe.startswith("tooltip"):
+        return f'<button class="{classe}" data-bs-toggle="tooltip" title="Tooltip example">Hover me</button>'
+    elif classe.startswith("spinner"):
+        return f'<div class="{classe}" role="status"><span class="visually-hidden">Loading...</span></div>'
+    elif classe.startswith("bg-") or classe.startswith("text-"):
+        return f'<div class="{classe}">Example text or background</div>'
+    elif classe.startswith("d-"):
+        return f'<div class="{classe}">Example of display utility</div>'
+    elif classe.startswith("flex-"):
+        return f'<div class="{classe} d-flex">Example of flexbox utility</div>'
+    elif classe.startswith("float-"):
+        return f'<div class="{classe}">Floating example</div>'
+    elif classe.startswith("position-"):
+        return f'<div class="{classe}">Positioning example</div>'
+    elif classe.startswith("shadow-"):
+        return f'<div class="{classe} shadow-sm">Example with shadow</div>'
+    else:
+        return None
 
 db = 'cms.db'
 arquivo_css = 'bootstrap.css'
@@ -409,13 +566,16 @@ cursor = conn.cursor()
 criar_tabelas(db)
 criar_temas(db)
 
+
+#cadastra_componentes(conn, cursor, componentes)
+
 print('Media Classes...')
 media = extrair_classes_media(arquivo_css)
 for media_tipo, classes_media in media.items():
     for classe, propriedades in classes_media.items():
         print(classe)
         if not existe_classe(classe, media_tipo):
-            cursor.execute("INSERT INTO styles_classes (class_name, media_type) VALUES (?, ?)", (classe, media_tipo))
+            cursor.execute("INSERT OR IGNORE INTO styles_classes (class_name, media_type) VALUES (?, ?)", (classe, media_tipo))
             conn.commit()
             class_id = cursor.lastrowid
         else:
@@ -427,12 +587,12 @@ print('Classes...')
 classes = extrair_classes_propriedades(arquivo_css)
 for classe, propriedades in classes.items():
     if not classe.__contains__('@media'):
-        media_tipo = None        
+        media_tipo = None
         for classe, propriedades in classes.items():
             if not classe.__contains__('@media'):
                 print(classe)
                 if not existe_classe(classe, media_tipo):
-                    cursor.execute("INSERT INTO styles_classes (class_name, media_type) VALUES (?, ?)", (classe, media_tipo))
+                    cursor.execute("INSERT OR IGNORE INTO styles_classes (class_name, media_type) VALUES (?, ?)", (classe, media_tipo))
                     conn.commit()
                     class_id = cursor.lastrowid
                 else:

@@ -1,0 +1,340 @@
+--
+-- Arquivo gerado com SQLiteStudio v3.4.4 em dom set 29 19:33:57 2024
+--
+-- Codificação de texto usada: System
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Tabela: Languages
+CREATE TABLE IF NOT EXISTS Languages (LanguageID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Code VARCHAR (5) NOT NULL);
+INSERT INTO Languages (LanguageID, Code) VALUES (1, 'en-us');
+
+-- Tabela: PageTemplates
+CREATE TABLE IF NOT EXISTS PageTemplates (PageTemplateID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, PageTemplate VARCHAR (40) NOT NULL);
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (1, '1_Column_Header_Footer');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (2, '2_Sidebars_Header_Footer');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (3, '3_Equal_Columns_Header_Footer');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (4, '4_Equal_Columns_Header_Footer');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (5, 'Blank_Content');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (6, 'Left_Sidebar_Content');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (7, 'Left_Sidebar_Header_Footer');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (8, 'Promo_3_Columns_Header_Footer');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (9, 'Right_Sidebar_Content');
+INSERT INTO PageTemplates (PageTemplateID, PageTemplate) VALUES (10, 'Right_Sidebar_Header_Footer');
+
+-- Tabela: PageTemplates_Modules
+CREATE TABLE IF NOT EXISTS PageTemplates_Modules (ModuleID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, PageTemplateID INTEGER NOT NULL REFERENCES PageTemplates (PageTemplateID), ModuleTheme VARCHAR (40) NOT NULL, Width DOUBLE NOT NULL, Height DOUBLE NOT NULL, ModuleView_Row INTEGER NOT NULL, ModuleView_Colum INTEGER NOT NULL, ModuleView_RowSpan INTEGER NOT NULL, ModuleView_ColumSpan INTEGER NOT NULL);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (1, 7, '1 Column (Header)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (2, 7, '1 Column (Content)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (3, 7, '1 Column (Footer)', 0.33, 0.6, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (4, 2, '2 Sidebars (Header)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (5, 2, '2 Sidebars (Left)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (6, 2, '2 Sidebars (Center)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (7, 2, '2 Sidebars (Right)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (8, 2, '2 Sidebars (Footer)', 0.33, 0.6, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (9, 3, '3 Equal (Header)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (10, 3, '3 Equal (Left)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (11, 3, '3 Equal (Center)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (12, 3, '3 Equal (Right)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (13, 3, '3 Equal (Footer)', 0.33, 0.6, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (14, 4, '4 Columns (Header)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (15, 4, '4 Columns (Colum 1)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (16, 4, '4 Columns (Colum 2)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (17, 4, '4 Columns (Colum 3)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (18, 4, '4 Columns (Colum 4)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (19, 4, '4 Columns (Footer)', 0.33, 0.6, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (21, 6, 'Left SideBar (Left)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (22, 6, 'Left SideBar (Content)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (26, 5, 'Blank Content', 1.0, 1.0, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (27, 8, 'Promo 3 Columns (Header)', 1.0, 0.1, 0, 0, 0, 3);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (28, 8, 'Promo 3 Columns (Promo)', 1.0, 0.2, 1, 0, 0, 3);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (29, 8, 'Promo 3 Columns (Left)', 0.33, 0.6, 2, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (30, 8, 'Promo 3 Columns (Center)', 0.33, 0.6, 2, 1, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (31, 8, 'Promo 3 Columns (Right)', 0.33, 0.6, 2, 2, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (32, 8, 'Promo 3 Columns (Footer)', 1.0, 0.1, 3, 0, 0, 3);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (33, 9, 'Right SideBar (Content)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (34, 9, 'Right SideBar (Right)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (35, 10, 'Right SideBar Header (Header)', 1.0, 0.1, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (36, 10, 'Right SideBar Header (Content)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (37, 10, 'Right SideBar Header (Right)', 1.0, 0.2, 0, 0, 0, 0);
+INSERT INTO PageTemplates_Modules (ModuleID, PageTemplateID, ModuleTheme, Width, Height, ModuleView_Row, ModuleView_Colum, ModuleView_RowSpan, ModuleView_ColumSpan) VALUES (38, 10, 'Right SideBar Header (Footer)', 0.33, 0.6, 0, 0, 0, 0);
+
+-- Tabela: System
+CREATE TABLE IF NOT EXISTS System (SystemID INTEGER PRIMARY KEY ASC ON CONFLICT ROLLBACK AUTOINCREMENT NOT NULL, Name VARCHAR (40) NOT NULL, Revision VARCHAR (40) NOT NULL, Version DOUBLE NOT NULL, Changes VARCHAR (4000) NOT NULL, LastUpdate DATETIME NOT NULL DEFAULT (DateTime()));
+INSERT INTO System (SystemID, Name, Revision, Version, Changes, LastUpdate) VALUES (1, 'Masters Universe', 'Gods Fail', 1.0, 'Essencial Desenv', '2019-08-28 18:48:55');
+INSERT INTO System (SystemID, Name, Revision, Version, Changes, LastUpdate) VALUES (2, 'Masters Universe', 'Revenge', 1.1, 'New Developments', '2019-08-28 19:20:34');
+INSERT INTO System (SystemID, Name, Revision, Version, Changes, LastUpdate) VALUES (3, 'Masters Universe', 'Composite Reloaded', 1.0, 'Create HUD Contents', '2020-03-31 00:00:00');
+
+-- Tabela: UserControls
+CREATE TABLE IF NOT EXISTS UserControls (UserControlID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, UserControl VARCHAR (40) NOT NULL);
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (1, 'Label');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (2, 'CheckBox');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (3, 'ComboBox');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (4, 'Slider');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (5, 'SpinBox');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (6, 'EditableText');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (7, 'EditableText _MultiLine');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (8, 'TextBox');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (9, 'TextBox _MultiLine');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (10, 'RichTextBlock');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (11, 'Buttom');
+INSERT INTO UserControls (UserControlID, UserControl) VALUES (12, 'GridView');
+
+-- Tabela: UserPanels
+CREATE TABLE IF NOT EXISTS UserPanels (UserPanelID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, UserPanel varchar (40) NOT NULL);
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (1, 'Canvas Panel');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (2, 'Overlay');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (3, 'Grid Panel');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (4, 'Uniform Panel');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (5, 'Horizontal Box');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (6, 'Vertical Box');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (7, 'Scale Box');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (8, 'Size Box');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (9, 'Scroll Box');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (10, 'Wrap Box');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (11, 'Widget Switch');
+INSERT INTO UserPanels (UserPanelID, UserPanel) VALUES (12, 'Safe Zone');
+
+-- Tabela: VirtualFields
+CREATE TABLE IF NOT EXISTS VirtualFields (VirtualFieldID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, VirtualTableID INTEGER REFERENCES VirtualTables NOT NULL, VirtualPanelID INTEGER REFERENCES VirtualPanels (VirtualPanelID) NOT NULL, ModuleID INTEGER NOT NULL, GridView_Row INTEGER NOT NULL, GridView_Colum INTEGER NOT NULL, GridView_RowSpan INTEGER NOT NULL, GridView_ColumSpan INTEGER NOT NULL, FieldTheme VARCHAR (60) NOT NULL, FontStyle VARCHAR (30) NOT NULL DEFAULT ('Default'), UserControlID INTEGER REFERENCES UserControls (UserControlID), IfControl_FieldNameID INTEGER, IfControl_ControlID VARCHAR (60), IfControl_isReadWrite BOOLEAN, IfControl_Tooltip VARCHAR (400), IfControl_DefaultValue VARCHAR (8000), IfControl_IfComboBox_OptionsValues VARCHAR (8000), IfControl_IfTextBox_HintText VARCHAR (8000), IfControl_IfEditableTextOrTextBox_IsPassword BOOLEAN, IfControl_UseScrollBox BOOLEAN DEFAULT (0));
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (51, 1, 1, 26, 0, 0, 0, 0, 'Default', 'Default', 11, NULL, 'lblField1', 0, NULL, 'Field1', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (52, 1, 1, 26, 1, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field2', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (53, 1, 1, 26, 2, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field3', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (54, 1, 1, 26, 3, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field4', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (55, 1, 1, 26, 4, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field5', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (56, 1, 1, 26, 5, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field6', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (57, 1, 1, 26, 6, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field7', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (58, 1, 1, 26, 7, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field8', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (59, 1, 1, 26, 8, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field9', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (60, 1, 1, 26, 9, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field10', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (61, 1, 1, 26, 10, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field11', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (62, 1, 1, 26, 11, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field12', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (63, 1, 1, 26, 12, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field13', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (64, 1, 1, 26, 13, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field14', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (65, 1, 1, 26, 14, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field15', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (66, 1, 1, 26, 15, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field16', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (67, 1, 1, 26, 16, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field17', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (68, 1, 1, 26, 17, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field18', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (69, 1, 1, 26, 18, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field19', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (70, 1, 1, 26, 19, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field20', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (71, 1, 1, 26, 21, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field21', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (72, 1, 1, 26, 22, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field22', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (73, 1, 1, 26, 23, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field23', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (74, 1, 1, 26, 24, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field24', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (75, 1, 1, 26, 25, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field25', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (76, 1, 1, 26, 26, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field26', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (77, 1, 1, 26, 27, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field27', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (78, 1, 1, 26, 28, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field28', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (79, 1, 1, 26, 29, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field29', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (80, 1, 1, 26, 30, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Filed30', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (81, 1, 1, 26, 31, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field31', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (82, 1, 1, 26, 32, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field32', NULL, NULL, 0, 0);
+INSERT INTO VirtualFields (VirtualFieldID, VirtualTableID, VirtualPanelID, ModuleID, GridView_Row, GridView_Colum, GridView_RowSpan, GridView_ColumSpan, FieldTheme, FontStyle, UserControlID, IfControl_FieldNameID, IfControl_ControlID, IfControl_isReadWrite, IfControl_Tooltip, IfControl_DefaultValue, IfControl_IfComboBox_OptionsValues, IfControl_IfTextBox_HintText, IfControl_IfEditableTextOrTextBox_IsPassword, IfControl_UseScrollBox) VALUES (83, 1, 1, 26, 33, 0, 0, 0, 'Default', 'Default', 1, NULL, 'lblField1', 0, NULL, 'Field33', NULL, NULL, 0, 0);
+
+-- Tabela: VirtualFields_Names
+CREATE TABLE IF NOT EXISTS VirtualFields_Names (NoUseID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FieldNameID INTEGER NOT NULL, LanguageID INTEGER NOT NULL DEFAULT 1 REFERENCES Languages (LanguageID), FieldName VARCHAR (40) NOT NULL, FOREIGN KEY (NoUseID) REFERENCES VirtualFields_Names (NoUseID), FOREIGN KEY (LanguageID) REFERENCES Languages (LanguageID));
+INSERT INTO VirtualFields_Names (NoUseID, FieldNameID, LanguageID, FieldName) VALUES (4, 1, 1, 'Campo 1');
+INSERT INTO VirtualFields_Names (NoUseID, FieldNameID, LanguageID, FieldName) VALUES (5, 2, 1, 'Campo 2');
+
+-- Tabela: VirtualFields_Values
+CREATE TABLE IF NOT EXISTS VirtualFields_Values (FieldValueID INTEGER PRIMARY KEY ASC ON CONFLICT ROLLBACK AUTOINCREMENT NOT NULL, VirtualFieldID INTEGER REFERENCES VirtualFields NOT NULL, FieldValue VARCHAR NOT NULL);
+
+-- Tabela: VirtualPanels
+CREATE TABLE IF NOT EXISTS VirtualPanels (VirtualPanelID INTEGER PRIMARY KEY AUTOINCREMENT, VirtualPanelRootID INTEGER REFERENCES UserPanels (UserPanelID), UserPanelID INTEGER REFERENCES UserPanels (UserPanelID) NOT NULL, PanelName VARCHAR (60) NOT NULL, PanelTheme VARCHAR (60) NOT NULL);
+INSERT INTO VirtualPanels (VirtualPanelID, VirtualPanelRootID, UserPanelID, PanelName, PanelTheme) VALUES (1, NULL, 3, 'Teste', 'Default');
+INSERT INTO VirtualPanels (VirtualPanelID, VirtualPanelRootID, UserPanelID, PanelName, PanelTheme) VALUES (2, 3, 9, 'ScrollBox', 'Default');
+INSERT INTO VirtualPanels (VirtualPanelID, VirtualPanelRootID, UserPanelID, PanelName, PanelTheme) VALUES (3, NULL, 7, 'ScaleBox', 'Default');
+
+-- Tabela: VirtualTables
+CREATE TABLE IF NOT EXISTS VirtualTables (VirtualTableID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, PageTemplateID INTEGER REFERENCES PageTemplates (PageTemplateID) NOT NULL, VirtualPanelID INTEGER REFERENCES VirtualPanels (VirtualPanelID) NOT NULL, TableName VARCHAR (255) NOT NULL, UseLevel VARCHAR (60), UseLevel_Streaming VARCHAR (60), UseLevel_Sequence_StartLevel VARCHAR (60), Reference_Widget_Transition VARCHAR (255), Custom_Widget_Content_Reference VARCHAR (255));
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (1, 5, 1, 'Home', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (2, 1, 1, 'Main Menu', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (3, 1, 1, 'Layouts - 1_Column_Header_Footer ', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (4, 1, 1, 'Layouts - 2_Sidebars_Header_Footer', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (5, 1, 1, 'Layouts - 3_Equal_Columns_Header_Footer', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (6, 1, 1, 'Layouts - 4_Equal_Columns_Header_Footer', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (7, 1, 1, 'Layouts - Blank_Content', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (8, 1, 1, 'Layouts - Left_Sidebar_Content', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (9, 1, 1, 'Layouts - Left_Sidebar_Header_Footer', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (10, 1, 1, 'Layouts - Promo_3_Columns_Header_Footer', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (11, 1, 1, 'Layouts - Right_Sidebar_Content', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (12, 1, 1, 'Layouts - Right_Sidebar_Header_Footer', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO VirtualTables (VirtualTableID, PageTemplateID, VirtualPanelID, TableName, UseLevel, UseLevel_Streaming, UseLevel_Sequence_StartLevel, Reference_Widget_Transition, Custom_Widget_Content_Reference) VALUES (13, 1, 1, 'Layouts', NULL, NULL, NULL, NULL, NULL);
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;
+
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/customize/overview/" class="bd-links-link d-inline-block rounded">Overview</a></li>
+        <li><a href="/docs/5.3/customize/sass/" class="bd-links-link d-inline-block rounded">Sass</a></li>
+        <li><a href="/docs/5.3/customize/options/" class="bd-links-link d-inline-block rounded">Options</a></li>
+        <li><a href="/docs/5.3/customize/color/" class="bd-links-link d-inline-block rounded">Color</a></li>
+        <li><a href="/docs/5.3/customize/color-modes/" class="bd-links-link d-inline-block rounded">Color modes</a></li>
+        <li><a href="/docs/5.3/customize/components/" class="bd-links-link d-inline-block rounded">Components</a></li>
+        <li><a href="/docs/5.3/customize/css-variables/" class="bd-links-link d-inline-block rounded">CSS variables</a></li>
+        <li><a href="/docs/5.3/customize/optimize/" class="bd-links-link d-inline-block rounded">Optimize</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-teal);" aria-hidden="true"><use xlink:href="#grid-fill"></use></svg>
+      Layout
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/layout/breakpoints/" class="bd-links-link d-inline-block rounded">Breakpoints</a></li>
+        <li><a href="/docs/5.3/layout/containers/" class="bd-links-link d-inline-block rounded">Containers</a></li>
+        <li><a href="/docs/5.3/layout/grid/" class="bd-links-link d-inline-block rounded">Grid</a></li>
+        <li><a href="/docs/5.3/layout/columns/" class="bd-links-link d-inline-block rounded">Columns</a></li>
+        <li><a href="/docs/5.3/layout/gutters/" class="bd-links-link d-inline-block rounded">Gutters</a></li>
+        <li><a href="/docs/5.3/layout/utilities/" class="bd-links-link d-inline-block rounded">Utilities</a></li>
+        <li><a href="/docs/5.3/layout/z-index/" class="bd-links-link d-inline-block rounded">Z-index</a></li>
+        <li><a href="/docs/5.3/layout/css-grid/" class="bd-links-link d-inline-block rounded">CSS Grid</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-gray);" aria-hidden="true"><use xlink:href="#file-earmark-richtext"></use></svg>
+      Content
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/content/reboot/" class="bd-links-link d-inline-block rounded">Reboot</a></li>
+        <li><a href="/docs/5.3/content/typography/" class="bd-links-link d-inline-block rounded">Typography</a></li>
+        <li><a href="/docs/5.3/content/images/" class="bd-links-link d-inline-block rounded">Images</a></li>
+        <li><a href="/docs/5.3/content/tables/" class="bd-links-link d-inline-block rounded">Tables</a></li>
+        <li><a href="/docs/5.3/content/figures/" class="bd-links-link d-inline-block rounded">Figures</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-blue);" aria-hidden="true"><use xlink:href="#ui-radios"></use></svg>
+      Forms
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/forms/overview/" class="bd-links-link d-inline-block rounded">Overview</a></li>
+        <li><a href="/docs/5.3/forms/form-control/" class="bd-links-link d-inline-block rounded">Form control</a></li>
+        <li><a href="/docs/5.3/forms/select/" class="bd-links-link d-inline-block rounded">Select</a></li>
+        <li><a href="/docs/5.3/forms/checks-radios/" class="bd-links-link d-inline-block rounded">Checks & radios</a></li>
+        <li><a href="/docs/5.3/forms/range/" class="bd-links-link d-inline-block rounded">Range</a></li>
+        <li><a href="/docs/5.3/forms/input-group/" class="bd-links-link d-inline-block rounded">Input group</a></li>
+        <li><a href="/docs/5.3/forms/floating-labels/" class="bd-links-link d-inline-block rounded">Floating labels</a></li>
+        <li><a href="/docs/5.3/forms/layout/" class="bd-links-link d-inline-block rounded">Layout</a></li>
+        <li><a href="/docs/5.3/forms/validation/" class="bd-links-link d-inline-block rounded">Validation</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-cyan);" aria-hidden="true"><use xlink:href="#menu-button-wide-fill"></use></svg>
+      Components
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/components/accordion/" class="bd-links-link d-inline-block rounded">Accordion</a></li>
+        <li><a href="/docs/5.3/components/alerts/" class="bd-links-link d-inline-block rounded">Alerts</a></li>
+        <li><a href="/docs/5.3/components/badge/" class="bd-links-link d-inline-block rounded">Badge</a></li>
+        <li><a href="/docs/5.3/components/breadcrumb/" class="bd-links-link d-inline-block rounded">Breadcrumb</a></li>
+        <li><a href="/docs/5.3/components/buttons/" class="bd-links-link d-inline-block rounded">Buttons</a></li>
+        <li><a href="/docs/5.3/components/button-group/" class="bd-links-link d-inline-block rounded">Button group</a></li>
+        <li><a href="/docs/5.3/components/card/" class="bd-links-link d-inline-block rounded">Card</a></li>
+        <li><a href="/docs/5.3/components/carousel/" class="bd-links-link d-inline-block rounded">Carousel</a></li>
+        <li><a href="/docs/5.3/components/close-button/" class="bd-links-link d-inline-block rounded">Close button</a></li>
+        <li><a href="/docs/5.3/components/collapse/" class="bd-links-link d-inline-block rounded">Collapse</a></li>
+        <li><a href="/docs/5.3/components/dropdowns/" class="bd-links-link d-inline-block rounded">Dropdowns</a></li>
+        <li><a href="/docs/5.3/components/list-group/" class="bd-links-link d-inline-block rounded">List group</a></li>
+        <li><a href="/docs/5.3/components/modal/" class="bd-links-link d-inline-block rounded">Modal</a></li>
+        <li><a href="/docs/5.3/components/navbar/" class="bd-links-link d-inline-block rounded">Navbar</a></li>
+        <li><a href="/docs/5.3/components/navs-tabs/" class="bd-links-link d-inline-block rounded">Navs & tabs</a></li>
+        <li><a href="/docs/5.3/components/offcanvas/" class="bd-links-link d-inline-block rounded">Offcanvas</a></li>
+        <li><a href="/docs/5.3/components/pagination/" class="bd-links-link d-inline-block rounded">Pagination</a></li>
+        <li><a href="/docs/5.3/components/placeholders/" class="bd-links-link d-inline-block rounded">Placeholders</a></li>
+        <li><a href="/docs/5.3/components/popovers/" class="bd-links-link d-inline-block rounded">Popovers</a></li>
+        <li><a href="/docs/5.3/components/progress/" class="bd-links-link d-inline-block rounded">Progress</a></li>
+        <li><a href="/docs/5.3/components/scrollspy/" class="bd-links-link d-inline-block rounded">Scrollspy</a></li>
+        <li><a href="/docs/5.3/components/spinners/" class="bd-links-link d-inline-block rounded">Spinners</a></li>
+        <li><a href="/docs/5.3/components/toasts/" class="bd-links-link d-inline-block rounded">Toasts</a></li>
+        <li><a href="/docs/5.3/components/tooltips/" class="bd-links-link d-inline-block rounded">Tooltips</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-orange);" aria-hidden="true"><use xlink:href="#magic"></use></svg>
+      Helpers
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/helpers/clearfix/" class="bd-links-link d-inline-block rounded">Clearfix</a></li>
+        <li><a href="/docs/5.3/helpers/color-background/" class="bd-links-link d-inline-block rounded">Color & background</a></li>
+        <li><a href="/docs/5.3/helpers/colored-links/" class="bd-links-link d-inline-block rounded">Colored links</a></li>
+        <li><a href="/docs/5.3/helpers/focus-ring/" class="bd-links-link d-inline-block rounded">Focus ring</a></li>
+        <li><a href="/docs/5.3/helpers/icon-link/" class="bd-links-link d-inline-block rounded">Icon link</a></li>
+        <li><a href="/docs/5.3/helpers/position/" class="bd-links-link d-inline-block rounded">Position</a></li>
+        <li><a href="/docs/5.3/helpers/ratio/" class="bd-links-link d-inline-block rounded">Ratio</a></li>
+        <li><a href="/docs/5.3/helpers/stacks/" class="bd-links-link d-inline-block rounded">Stacks</a></li>
+        <li><a href="/docs/5.3/helpers/stretched-link/" class="bd-links-link d-inline-block rounded">Stretched link</a></li>
+        <li><a href="/docs/5.3/helpers/text-truncation/" class="bd-links-link d-inline-block rounded">Text truncation</a></li>
+        <li><a href="/docs/5.3/helpers/vertical-rule/" class="bd-links-link d-inline-block rounded">Vertical rule</a></li>
+        <li><a href="/docs/5.3/helpers/visually-hidden/" class="bd-links-link d-inline-block rounded">Visually hidden</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-red);" aria-hidden="true"><use xlink:href="#braces-asterisk"></use></svg>
+      Utilities
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/utilities/api/" class="bd-links-link d-inline-block rounded">API</a></li>
+        <li><a href="/docs/5.3/utilities/background/" class="bd-links-link d-inline-block rounded">Background</a></li>
+        <li><a href="/docs/5.3/utilities/borders/" class="bd-links-link d-inline-block rounded">Borders</a></li>
+        <li><a href="/docs/5.3/utilities/colors/" class="bd-links-link d-inline-block rounded">Colors</a></li>
+        <li><a href="/docs/5.3/utilities/display/" class="bd-links-link d-inline-block rounded">Display</a></li>
+        <li><a href="/docs/5.3/utilities/flex/" class="bd-links-link d-inline-block rounded">Flex</a></li>
+        <li><a href="/docs/5.3/utilities/float/" class="bd-links-link d-inline-block rounded">Float</a></li>
+        <li><a href="/docs/5.3/utilities/interactions/" class="bd-links-link d-inline-block rounded">Interactions</a></li>
+        <li><a href="/docs/5.3/utilities/link/" class="bd-links-link d-inline-block rounded">Link</a></li>
+        <li><a href="/docs/5.3/utilities/object-fit/" class="bd-links-link d-inline-block rounded">Object fit</a></li>
+        <li><a href="/docs/5.3/utilities/opacity/" class="bd-links-link d-inline-block rounded">Opacity</a></li>
+        <li><a href="/docs/5.3/utilities/overflow/" class="bd-links-link d-inline-block rounded">Overflow</a></li>
+        <li><a href="/docs/5.3/utilities/position/" class="bd-links-link d-inline-block rounded">Position</a></li>
+        <li><a href="/docs/5.3/utilities/shadows/" class="bd-links-link d-inline-block rounded">Shadows</a></li>
+        <li><a href="/docs/5.3/utilities/sizing/" class="bd-links-link d-inline-block rounded">Sizing</a></li>
+        <li><a href="/docs/5.3/utilities/spacing/" class="bd-links-link d-inline-block rounded">Spacing</a></li>
+        <li><a href="/docs/5.3/utilities/text/" class="bd-links-link d-inline-block rounded">Text</a></li>
+        <li><a href="/docs/5.3/utilities/vertical-align/" class="bd-links-link d-inline-block rounded">Vertical align</a></li>
+        <li><a href="/docs/5.3/utilities/visibility/" class="bd-links-link d-inline-block rounded">Visibility</a></li>
+        <li><a href="/docs/5.3/utilities/z-index/" class="bd-links-link d-inline-block rounded">Z-index</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-blue);" aria-hidden="true"><use xlink:href="#tools"></use></svg>
+      Extend
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/extend/approach/" class="bd-links-link d-inline-block rounded">Approach</a></li>
+        <li><a href="/docs/5.3/extend/icons/" class="bd-links-link d-inline-block rounded">Icons</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-group py-2">
+    <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        <svg class="bi me-2" style="color: var(--bs-indigo);" aria-hidden="true"><use xlink:href="#globe2"></use></svg>
+      About
+    </strong>
+
+    <ul class="list-unstyled fw-normal pb-2 small">
+        <li><a href="/docs/5.3/about/overview/" class="bd-links-link d-inline-block rounded active" aria-current="page">Overview</a></li>
+        <li><a href="/docs/5.3/about/team/" class="bd-links-link d-inline-block rounded">Team</a></li>
+        <li><a href="/docs/5.3/about/brand/" class="bd-links-link d-inline-block rounded">Brand</a></li>
+        <li><a href="/docs/5.3/about/license/" class="bd-links-link d-inline-block rounded">License</a></li>
+        <li><a href="/docs/5.3/about/translations/" class="bd-links-link d-inline-block rounded">Translations</a></li>
+    </ul>
+  </li>
+  <li class="bd-links-span-all mt-1 mb-3 mx-4 border-top"></li>
+  <li class="bd-links-span-all">
+    <a href="/docs/5.3/migration/" class="bd-links-link d-inline-block rounded small ">
+      Migration

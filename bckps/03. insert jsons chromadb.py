@@ -84,18 +84,31 @@ def process_single_json_file(file_path, collection_name):
         except Exception as e:
             print(f"Error inserting {file_path}: {e}")
 
-
 directory = 'output'
-process_json_files_and_insert_in_chromadb(directory)
+#process_json_files_and_insert_in_chromadb(directory)
 
-print('creating una cms structure database...')
-process_single_json_file('output_database\\una_database_structure.json', 'database_una_cms')
+#print('creating una cms structure database...')
+#process_single_json_file('output_database\\una_database_structure.json', 'database_una_cms')
 
 # Exemplo de consulta
 results = collection.query(
-    query_texts=["FunctionCall", "Class", "Method", "Parameter", "FormalParameter", "StaticMethodCall"],  # Busca por documentos que tenham a palavra "defined"
+query_texts=["kind:program", ""],
     n_results=1
 )
 
-for result in results["documents"]:
-    print(result)
+# Acesse o campo correto
+if 'documents' in results:
+    for doc in results['documents']:  # 'results['documents']' é uma lista
+        # Verificando se 'doc' é um dicionário
+        if isinstance(doc, dict):
+            kind = doc.get('kind')  # Acessando o campo 'kind'
+            loc = doc.get('loc')  # Acessando o campo 'loc'
+            
+            if kind:
+                print(f"Kind: {kind}")
+            if loc:
+                print(f"Location: {loc}")
+        else:
+            print("Documento não é um dicionário:", doc)
+else:
+    print("Nenhum documento encontrado.")

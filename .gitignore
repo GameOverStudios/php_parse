@@ -1,6 +1,4 @@
-chroma/chroma.sqlite3
-chroma/chroma.7z
+chroma
 output
 output_database
 node_modules
-una_cms.db

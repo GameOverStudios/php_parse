@@ -152,6 +152,25 @@ def criar_tabelas(db):
     )
     ''')
 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS styles_themes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        theme TEXT
+    )
+    ''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS styles_themes_parameters (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        theme_id INTEGER,
+        parameter TEXT,
+        value TEXT,
+        FOREIGN KEY (theme_id) REFERENCES styles_themes(id)
+    )
+    ''')
+
+     
+
      # Cria índice na tabela styles_classes pelo nome da classe
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_styles_classes_class_name ON styles_classes (class_name)")
 
@@ -164,6 +183,195 @@ def criar_tabelas(db):
     # Cria índice na tabela styles_classes_properties pelo nome da propriedade
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_styles_classes_properties_property_name ON styles_classes_properties (property_name)")
 
+    conn.commit()
+    conn.close()
+
+def criar_temas(db):
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+
+    cursor.execute ('INSERT INTO styles_themes (theme) VALUES("light")')
+    cursor.execute ('INSERT INTO styles_themes (theme) VALUES("dark")')
+
+    cursor.execute (
+    '''
+    INSERT INTO styles_themes_parameters (theme_id, parameter, value) VALUES
+        (1,'bs-blue', '#0d6efd'),
+        (1,'bs-indigo', '#6610f2'),
+        (1,'bs-purple', '#6f42c1'),
+        (1,'bs-pink', '#d63384'),
+        (1,'bs-red', '#dc3545'),
+        (1,'bs-orange', '#fd7e14'),
+        (1,'bs-yellow', '#ffc107'),
+        (1,'bs-green', '#198754'),
+        (1,'bs-teal', '#20c997'),
+        (1,'bs-cyan', '#0dcaf0'),
+        (1,'bs-black', '#000'),
+        (1,'bs-white', '#fff'),
+        (1,'bs-gray', '#6c757d'),
+        (1,'bs-gray-dark', '#343a40'),
+        (1,'bs-gray-100', '#f8f9fa'),
+        (1,'bs-gray-200', '#e9ecef'),
+        (1,'bs-gray-300', '#dee2e6'),
+        (1,'bs-gray-400', '#ced4da'),
+        (1,'bs-gray-500', '#adb5bd'),
+        (1,'bs-gray-600', '#6c757d'),
+        (1,'bs-gray-700', '#495057'),
+        (1,'bs-gray-800', '#343a40'),
+        (1,'bs-gray-900', '#212529'),
+        (1,'bs-primary', '#0d6efd'),
+        (1,'bs-secondary', '#6c757d'),
+        (1,'bs-success', '#198754'),
+        (1,'bs-info', '#0dcaf0'),
+        (1,'bs-warning', '#ffc107'),
+        (1,'bs-danger', '#dc3545'),
+        (1,'bs-light', '#f8f9fa'),
+        (1,'bs-dark', '#212529'),
+        (1,'bs-primary-rgb', '13, 110, 253'),
+        (1,'bs-secondary-rgb', '108, 117, 125'),
+        (1,'bs-success-rgb', '25, 135, 84'),
+        (1,'bs-info-rgb', '13, 202, 240'),
+        (1,'bs-warning-rgb', '255, 193, 7'),
+        (1,'bs-danger-rgb', '220, 53, 69'),
+        (1,'bs-light-rgb', '248, 249, 250'),
+        (1,'bs-dark-rgb', '33, 37, 41'),
+        (1,'bs-primary-text-emphasis', '#052c65'),
+        (1,'bs-secondary-text-emphasis', '#2b2f32'),
+        (1,'bs-success-text-emphasis', '#0a3622'),
+        (1,'bs-info-text-emphasis', '#055160'),
+        (1,'bs-warning-text-emphasis', '#664d03'),
+        (1,'bs-danger-text-emphasis', '#58151c'),
+        (1,'bs-light-text-emphasis', '#495057'),
+        (1,'bs-dark-text-emphasis', '#495057'),
+        (1,'bs-primary-bg-subtle', '#cfe2ff'),
+        (1,'bs-secondary-bg-subtle', '#e2e3e5'),
+        (1,'bs-success-bg-subtle', '#d1e7dd'),
+        (1,'bs-info-bg-subtle', '#cff4fc'),
+        (1,'bs-warning-bg-subtle', '#fff3cd'),
+        (1,'bs-danger-bg-subtle', '#f8d7da'),
+        (1,'bs-light-bg-subtle', '#fcfcfd'),
+        (1,'bs-dark-bg-subtle', '#ced4da'),
+        (1,'bs-primary-border-subtle', '#9ec5fe'),
+        (1,'bs-secondary-border-subtle', '#c4c8cb'),
+        (1,'bs-success-border-subtle', '#a3cfbb'),
+        (1,'bs-info-border-subtle', '#9eeaf9'),
+        (1,'bs-warning-border-subtle', '#ffe69c'),
+        (1,'bs-danger-border-subtle', '#f1aeb5'),
+        (1,'bs-light-border-subtle', '#e9ecef'),
+        (1,'bs-dark-border-subtle', '#adb5bd'),
+        (1,'bs-white-rgb', '255, 255, 255'),
+        (1,'bs-black-rgb', '0, 0, 0'),
+        (1,'bs-font-sans-serif', 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'),
+        (1,'bs-font-monospace', 'SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'),
+        (1,'bs-gradient', 'linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0))'),
+        (1,'bs-body-font-family', 'var(--bs-font-sans-serif)'),
+        (1,'bs-body-font-size', '1rem'),
+        (1,'bs-body-font-weight', '400'),
+        (1,'bs-body-line-height', '1.5'),
+        (1,'bs-body-color', '#212529'),
+        (1,'bs-body-color-rgb', '33, 37, 41'),
+        (1,'bs-body-bg', '#fff'),
+        (1,'bs-body-bg-rgb', '255, 255, 255'),
+        (1,'bs-emphasis-color', '#000'),
+        (1,'bs-emphasis-color-rgb', '0, 0, 0'),
+        (1,'bs-secondary-color', 'rgba(33, 37, 41, 0.75)'),
+        (1,'bs-secondary-color-rgb', '33, 37, 41'),
+        (1,'bs-secondary-bg', '#e9ecef'),
+        (1,'bs-secondary-bg-rgb', '233, 236, 239'),
+        (1,'bs-tertiary-color', 'rgba(33, 37, 41, 0.5)'),
+        (1,'bs-tertiary-color-rgb', '33, 37, 41'),
+        (1,'bs-tertiary-bg', '#f8f9fa'),
+        (1,'bs-tertiary-bg-rgb', '248, 249, 250'),
+        (1,'bs-heading-color', 'inherit'),
+        (1,'bs-link-color', '#0d6efd'),
+        (1,'bs-link-color-rgb', '13, 110, 253'),
+        (1,'bs-link-decoration', 'underline'),
+        (1,'bs-link-hover-color', '#0a58ca'),
+        (1,'bs-link-hover-color-rgb', '10, 88, 202'),
+        (1,'bs-code-color', '#d63384'),
+        (1,'bs-highlight-color', '#212529'),
+        (1,'bs-highlight-bg', '#fff3cd'),
+        (1,'bs-border-width', '1px'),
+        (1,'bs-border-style', 'solid'),
+        (1,'bs-border-color', '#dee2e6'),
+        (1,'bs-border-color-translucent', 'rgba(0, 0, 0, 0.175)'),
+        (1,'bs-border-radius', '0.375rem'),
+        (1,'bs-border-radius-sm', '0.25rem'),
+        (1,'bs-border-radius-lg', '0.5rem'),
+        (1,'bs-border-radius-xl', '1rem'),
+        (1,'bs-border-radius-xxl', '2rem'),
+        (1,'bs-border-radius-2xl', 'var(--bs-border-radius-xxl)'),
+        (1,'bs-border-radius-pill', '50rem'),
+        (1,'bs-box-shadow', '0 0.5rem 1rem rgba(0, 0, 0, 0.15)'),
+        (1,'bs-box-shadow-sm', '0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)'),
+        (1,'bs-box-shadow-lg', '0 1rem 3rem rgba(0, 0, 0, 0.175)'),
+        (1,'bs-box-shadow-inset', 'inset 0 1px 2px rgba(0, 0, 0, 0.075)'),
+        (1,'bs-focus-ring-width', '0.25rem'),
+        (1,'bs-focus-ring-opacity', '0.25'),
+        (1,'bs-focus-ring-color', 'rgba(13, 110, 253, 0.25)'),
+        (1,'bs-form-valid-color', '#198754'),
+        (1,'bs-form-valid-border-color', '#198754'),
+        (1,'bs-form-invalid-color', '#dc3545'),
+        (1,'bs-form-invalid-border-color', '#dc3545');
+    ''')
+
+    cursor.execute (
+    '''    
+    INSERT INTO styles_themes_parameters (theme_id, parameter, value) VALUES
+        (2, '--bs-body-color', '#dee2e6'),
+        (2, '--bs-body-color-rgb', '222, 226, 230'),
+        (2, '--bs-body-bg', '#212529'),
+        (2, '--bs-body-bg-rgb', '33, 37, 41'),
+        (2, '--bs-emphasis-color', '#fff'),
+        (2, '--bs-emphasis-color-rgb', '255, 255, 255'),
+        (2, '--bs-secondary-color', 'rgba(222, 226, 230, 0.75)'),
+        (2, '--bs-secondary-color-rgb', '222, 226, 230'),
+        (2, '--bs-secondary-bg', '#343a40'),
+        (2, '--bs-secondary-bg-rgb', '52, 58, 64'),
+        (2, '--bs-tertiary-color', 'rgba(222, 226, 230, 0.5)'),
+        (2, '--bs-tertiary-color-rgb', '222, 226, 230'),
+        (2, '--bs-tertiary-bg', '#2b3035'),
+        (2, '--bs-tertiary-bg-rgb', '43, 48, 53'),
+        (2, '--bs-primary-text-emphasis', '#6ea8fe'),
+        (2, '--bs-secondary-text-emphasis', '#a7acb1'),
+        (2, '--bs-success-text-emphasis', '#75b798'),
+        (2, '--bs-info-text-emphasis', '#6edff6'),
+        (2, '--bs-warning-text-emphasis', '#ffda6a'),
+        (2, '--bs-danger-text-emphasis', '#ea868f'),
+        (2, '--bs-light-text-emphasis', '#f8f9fa'),
+        (2, '--bs-dark-text-emphasis', '#dee2e6'),
+        (2, '--bs-primary-bg-subtle', '#031633'),
+        (2, '--bs-secondary-bg-subtle', '#161719'),
+        (2, '--bs-success-bg-subtle', '#051b11'),
+        (2, '--bs-info-bg-subtle', '#032830'),
+        (2, '--bs-warning-bg-subtle', '#332701'),
+        (2, '--bs-danger-bg-subtle', '#2c0b0e'),
+        (2, '--bs-light-bg-subtle', '#343a40'),
+        (2, '--bs-dark-bg-subtle', '#1a1d20'),
+        (2, '--bs-primary-border-subtle', '#084298'),
+        (2, '--bs-secondary-border-subtle', '#41464b'),
+        (2, '--bs-success-border-subtle', '#0f5132'),
+        (2, '--bs-info-border-subtle', '#087990'),
+        (2, '--bs-warning-border-subtle', '#997404'),
+        (2, '--bs-danger-border-subtle', '#842029'),
+        (2, '--bs-light-border-subtle', '#495057'),
+        (2, '--bs-dark-border-subtle', '#343a40'),
+        (2, '--bs-heading-color', 'inherit'),
+        (2, '--bs-link-color', '#6ea8fe'),
+        (2, '--bs-link-hover-color', '#8bb9fe'),
+        (2, '--bs-link-color-rgb', '110, 168, 254'),
+        (2, '--bs-link-hover-color-rgb', '139, 185, 254'),
+        (2, '--bs-code-color', '#e685b5'),
+        (2, '--bs-highlight-color', '#dee2e6'),
+        (2, '--bs-highlight-bg', '#664d03'),
+        (2, '--bs-border-color', '#495057'),
+        (2, '--bs-border-color-translucent', 'rgba(255, 255, 255, 0.15)'),
+        (2, '--bs-form-valid-color', '#75b798'),
+        (2, '--bs-form-valid-border-color', '#75b798'),
+        (2, '--bs-form-invalid-color', '#ea868f'),
+        (2, '--bs-form-invalid-border-color', '#ea868f');
+    ''')
+    
     conn.commit()
     conn.close()
 
@@ -198,9 +406,8 @@ deletar_banco_de_dados(db)
 conn = sqlite3.connect(db)
 cursor = conn.cursor()
 
-
-
 criar_tabelas(db)
+criar_temas(db)
 
 print('Media Classes...')
 media = extrair_classes_media(arquivo_css)
@@ -216,7 +423,6 @@ for media_tipo, classes_media in media.items():
 
         cadastra_propriedades(conn, cursor, propriedades)
 
-# Classes
 print('Classes...')
 classes = extrair_classes_propriedades(arquivo_css)
 for classe, propriedades in classes.items():

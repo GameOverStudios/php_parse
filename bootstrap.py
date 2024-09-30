@@ -198,13 +198,12 @@ deletar_banco_de_dados(db)
 conn = sqlite3.connect(db)
 cursor = conn.cursor()
 
-classes = extrair_classes_propriedades(arquivo_css)
-media = extrair_classes_media(arquivo_css)
+
 
 criar_tabelas(db)
 
-# Media Classes
 print('Media Classes...')
+media = extrair_classes_media(arquivo_css)
 for media_tipo, classes_media in media.items():
     for classe, propriedades in classes_media.items():
         print(classe)
@@ -219,14 +218,13 @@ for media_tipo, classes_media in media.items():
 
 # Classes
 print('Classes...')
+classes = extrair_classes_propriedades(arquivo_css)
 for classe, propriedades in classes.items():
     if not classe.__contains__('@media'):
         media_tipo = None        
         for classe, propriedades in classes.items():
             if not classe.__contains__('@media'):
                 print(classe)
-                if classe == 'pre':
-                    flag = False
                 if not existe_classe(classe, media_tipo):
                     cursor.execute("INSERT INTO styles_classes (class_name, media_type) VALUES (?, ?)", (classe, media_tipo))
                     conn.commit()
